@@ -1,4 +1,14 @@
 LOCAL_BIN:=$(CURDIR)/bin
+
+install-golangci-lint:
+	GOBIN=$(LOCAL_BIN) go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+#./... рекурсивно пройтись по всем папкам, --config для кастомизации
+lint:
+	golangci-lint run ./... --config .golangci.pipeline.yaml
+#$(LOCAL_BIN)/golangci-lint run ./... --config .golangci.pipeline.yaml
+
+
 # protoc-gen-go будет скачан в локальную папку bin 
 #LOCAL_BIN указывает куда будет скачан
 install-deps:
