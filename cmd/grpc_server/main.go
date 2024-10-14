@@ -9,6 +9,7 @@ import (
 	"github.com/brianvoe/gofakeit"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	desc "github.com/titoffon/auth/pkg/auth_v1"
@@ -18,6 +19,13 @@ const grpcPort = 50051
 
 type server struct {
 	desc.UnimplementedUserServiceServer
+}
+
+//Create ...
+func (s *server) Create(ctx context.Context, req *desc.CreateUserRequest) (*desc.CreateUserResponse, error) {
+    fmt.Printf("Received Create request: Name=%s, Email=%s\n", req.Name, req.Email)
+	log.Printf("Received Create request: Name=%s, Email=%s", req.Name, req.Email)
+    return &desc.CreateUserResponse{Id: 1}, nil
 }
 
 // Get ...
@@ -33,6 +41,28 @@ func (s *server) Get(ctx context.Context, req *desc.GetUserRequest) (*desc.GetUs
         UpdatedAt: timestamppb.New(gofakeit.Date()),
     }, nil
 }
+
+// Update ...
+func (s *server) Update(ctx context.Context, req *desc.UpdateUserRequest) (*emptypb.Empty, error) {
+    fmt.Printf("Received Update request: ID=%d, Name=%v, Email=%v, Role=%v\n", req.Id, req.Name, req.Email, req.Role)
+	log.Printf("Received Update request: ID=%d, Name=%v, Email=%v, Role=%v", req.Id, req.Name, req.Email, req.Role)
+
+		//логика обновления пользователя в базе данных
+
+    return &emptypb.Empty{}, nil
+}
+
+// Delete ...
+func (s *server) Delete(ctx context.Context, req *desc.DeleteUserRequest) (*emptypb.Empty, error) {
+    fmt.Printf("Received Delete request: ID=%d\n", req.Id)
+	log.Printf("Received Update request: ID=%d", req.Id)
+
+    // логика удаления пользователя из базы данных
+
+    return &emptypb.Empty{}, nil
+}
+
+
 
 func main() {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", grpcPort))
