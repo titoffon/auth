@@ -15,7 +15,7 @@ import (
 	desc "github.com/titoffon/auth/pkg/auth_v1"
 )
 
-const grpcPort = 50051
+const grpcPort = 50052
 
 type server struct {
 	desc.UnimplementedUserServiceServer

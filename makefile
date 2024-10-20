@@ -43,3 +43,15 @@ generate-auth-api:
 # api/auth_v1/auth.proto прямой путь до протофайла
 
 # protoc-gen-go будет скачан в локальную папку bin 
+
+#для билда в linux бинарника выполнения программы
+build:
+	GOOS=linux GOARCH=amd64 go build -o service_linux_auth cmd/grpc_server/main.go
+
+copy-to-server:
+	scp -i /mnt/c/Users/titva/.ssh/id_ed25519_for_selectel service_linux root@176.114.77.183:
+
+docker-build-and-push:
+	docker buildx build --no-cache --platform linux/amd64 -t cr.selcloud.ru/auth-server/test-server:v0.0.1 .
+	docker login -u token -p CRgAAAAAyrihT-cmXr45E8vE69ew2s815i9i5FhP cr.selcloud.ru/auth-server
+	docker push cr.selcloud.ru/auth-server/test-server:v0.0.1
