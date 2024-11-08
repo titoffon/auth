@@ -1,0 +1,6 @@
+database:
+  host: localhost
+  port: 54321
+  user: auth-user
+  password: auth-password
+  dbname: auth
